@@ -17,11 +17,11 @@ jobs:
     - name: Log in to Amazon ECR
       id: ecr-login
       run: |
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/ml-app:latest
 
     - name: Build and Push Docker Image
       run: |
-        IMAGE_URI=<AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/iris-ml-app:latest
+        IMAGE_URI=<AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/ml-app:latest
         docker build -t $IMAGE_URI .
         docker push $IMAGE_URI
 
