@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  ml-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app/models:/app/app/models
+    command: >
+      sh -c "python train.py --save_path app/models/iris_model.joblib && 
+             uvicorn app.main:app --host 0.0.0.0 --port 8000"
