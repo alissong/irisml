@@ -1,4 +1,4 @@
-# iFood ML Platform Hiring Test
+# ML Platform Test
 
 This project is a machine learning platform for training and serving a model using FastAPI and Docker.
 
@@ -29,7 +29,7 @@ This project is a machine learning platform for training and serving a model usi
 1. Clone the repository:
     ```sh
     git clone <repository-url>
-    cd ifood-ml-platform-hiring-test-master/app-ml
+    cd ml-platform-test-master/app-ml
     ```
 
 2. Build and run the Docker containers:
