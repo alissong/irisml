@@ -1,18 +1,20 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-import joblib
-import os
+# Importa as bibliotecas necessárias
+from fastapi import FastAPI  # Framework para construir APIs
+from pydantic import BaseModel  # Biblioteca para validação de dados
+import joblib  # Biblioteca para carregar o modelo treinado
+import os  # Biblioteca para manipulação de caminhos de arquivos
 
 # Cria a instância do FastAPI
 app = FastAPI()
 
 # Define o esquema de dados para a entrada da API
 class IrisFeatures(BaseModel):
-    sepal_length: float
-    sepal_width: float
-    petal_length: float
-    petal_width: float
+    sepal_length: float  
+    sepal_width: float  
+    petal_length: float  
+    petal_width: float 
 
+    # Exemplo de dados de entrada para a documentação da API
     class Config:
         schema_extra = {
             "example": {
@@ -24,8 +26,8 @@ class IrisFeatures(BaseModel):
         }
 
 # Carrega o modelo treinado
-model_path = os.path.join(os.path.dirname(__file__), "models", "iris_model.joblib")
-model = joblib.load(model_path)
+model_path = os.path.join(os.path.dirname(__file__), "models", "iris_model.joblib")  
+model = joblib.load(model_path)  
 
 # Endpoint para previsões
 @app.post("/predict")
@@ -38,18 +40,18 @@ async def predict(features: IrisFeatures):
         features.petal_width
     ]]
     # Faz a previsão
-    prediction = int(model.predict(data)[0])
-    return {"prediction": prediction}
+    prediction = int(model.predict(data)[0])  
+    return {"prediction": prediction}  
 
 # Endpoint para informações sobre o modelo
 @app.get("/model-info")
 async def model_info():
     return {
-        "model_type": str(type(model)),
-        "model_params": model.get_params()
+        "model_type": str(type(model)),  
+        "model_params": model.get_params()  
     }
 
 # Endpoint de saúde (opcional, mas útil para monitoramento)
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy"}
+    return {"status": "healthy"}  
