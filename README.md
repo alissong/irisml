@@ -125,8 +125,7 @@ Once the container is running, the FastAPI server will be available at `http://l
 - The model is saved in the `app/models` directory.
 - The training script uses the Iris dataset from `sklearn.datasets`.
 
-### Future Decisions
 
-- **Automatização do Treinamento:** Implementar um pipeline CI/CD para automatizar o treinamento e a implantação do modelo.
-- **Monitoramento:** Adicionar ferramentas de monitoramento para acompanhar a performance do modelo em produção.
-- **Escalabilidade:** Implementar balanceamento de carga e escalabilidade horizontal para suportar um maior número de requisições.
+### Contributing
+
+We welcome contributions to this project! If you have any suggestions or improvements, please feel free to submit a pull request or open an issue. We encourage you to follow the best practices of the community when contributing.
