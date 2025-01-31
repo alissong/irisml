@@ -27,7 +27,7 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/ml-app:latest
+        IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.${{secrets.IMAGE_URI}}
         docker build -t $IMAGE_URI .
         docker push $IMAGE_URI
 

@@ -37,6 +37,7 @@ The model used in this application is a RandomForestClassifier from the `sklearn
 
 - Docker
 - Docker Compose
+- AWS Account with ECR (Elastic Container Registry) setup
 
 ### Installation
 
@@ -46,10 +47,29 @@ The model used in this application is a RandomForestClassifier from the `sklearn
     cd ml-platform-test-master/app-ml
     ```
 
-2. Build and run the Docker containers:
+2. Configure the following GitHub secrets in your repository settings:
+    - `AWS_ACCESS_KEY_ID`: Your AWS access key ID.
+    - `AWS_SECRET_ACCESS_KEY`: Your AWS secret access key.
+    - `AWS_ACCOUNT_ID`: Your AWS account ID.
+    - `IMAGE_URI`: The URI for your Docker image in ECR.
+
+3. Build and run the Docker containers:
     ```sh
     docker-compose up --build
     ```
+
+### Running the Container
+
+You have two options to run the container:
+
+1. **Locally**:
+    ```sh
+    docker-compose up --build
+    ```
+
+2. **Via ECR**:
+    - Provision the infrastructure using Terraform from this repository: [infra-iris-ml](https://github.com/alissong/infra-iris-ml)
+    - Push the Docker image to ECR and deploy to ECS as described in the CI/CD pipeline.
 
 ### Training the Model
 
