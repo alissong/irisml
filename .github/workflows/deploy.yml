@@ -47,6 +47,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
+    - name: List ECS Services
+      run: |
+        aws ecs list-services --cluster iris-ml-app
+
     - name: Deploy to ECS
       run: |
         aws ecs update-service \
