@@ -1,5 +1,5 @@
 # Importa as bibliotecas necessárias
-from fastapi import FastAPI  # Framework para construir APIs
+from fastapi import FastAPI, HTTPException  # Framework para construir APIs e exceções HTTP
 from pydantic import BaseModel  # Biblioteca para validação de dados
 import joblib  # Biblioteca para carregar o modelo treinado
 import os  # Biblioteca para manipulação de caminhos de arquivos
@@ -27,25 +27,36 @@ class IrisFeatures(BaseModel):
 
 # Carrega o modelo treinado
 model_path = os.path.join(os.path.dirname(__file__), "models", "iris_model.joblib")  
-model = joblib.load(model_path)  
+try:
+    model = joblib.load(model_path)  
+except Exception as e:
+    model = None
+    print(f"Erro ao carregar o modelo: {e}")
 
 # Endpoint para previsões
 @app.post("/predict")
 async def predict(features: IrisFeatures):
-    # Converte os dados de entrada para o formato esperado pelo modelo
-    data = [[
-        features.sepal_length,
-        features.sepal_width,
-        features.petal_length,
-        features.petal_width
-    ]]
-    # Faz a previsão
-    prediction = int(model.predict(data)[0])  
-    return {"prediction": prediction}  
+    if model is None:
+        raise HTTPException(status_code=500, detail="Modelo não carregado")
+    try:
+        # Converte os dados de entrada para o formato esperado pelo modelo
+        data = [[
+            features.sepal_length,
+            features.sepal_width,
+            features.petal_length,
+            features.petal_width
+        ]]
+        # Faz a previsão
+        prediction = int(model.predict(data)[0])  
+        return {"prediction": prediction}  
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Erro ao fazer a previsão: {e}")
 
 # Endpoint para informações sobre o modelo
 @app.get("/model-info")
 async def model_info():
+    if model is None:
+        raise HTTPException(status_code=500, detail="Modelo não carregado")
     return {
         "model_type": str(type(model)),  
         "model_params": model.get_params()  
@@ -54,4 +65,9 @@ async def model_info():
 # Endpoint de saúde (opcional, mas útil para monitoramento)
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy"}  
+    return {"status": "healthy"}
+
+# Endpoint para obter a versão da API
+@app.get("/version")
+async def get_version():
+    return {"version": "1.0.1"}  # Atualize a versão conforme necessário
