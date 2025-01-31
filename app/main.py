@@ -16,7 +16,7 @@ class IrisFeatures(BaseModel):
 
     # Exemplo de dados de entrada para a documentação da API
     class Config:
-        schema_extra = {
+        json_schema_extra = {  # Updated from schema_extra to json_schema_extra
             "example": {
                 "sepal_length": 5.1,
                 "sepal_width": 3.5,
