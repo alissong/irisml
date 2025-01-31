@@ -17,6 +17,20 @@ This project is a machine learning platform for training and serving a model usi
 └── README.md
 ```
 
+## Application Description
+
+This application provides a platform for training and serving a machine learning model using FastAPI and Docker. The model used in this example is a RandomForestClassifier trained on the Iris dataset from `sklearn.datasets`.
+
+### Components
+
+- **FastAPI**: A modern, fast (high-performance) web framework for building APIs with Python 3.6+ based on standard Python type hints.
+- **Docker**: A platform for developing, shipping, and running applications inside containers.
+- **Scikit-learn**: A machine learning library for Python that provides simple and efficient tools for data mining and data analysis.
+
+### Model Description
+
+The model used in this application is a RandomForestClassifier from the `sklearn.ensemble` module. It is trained on the Iris dataset, which is a classic dataset in the field of machine learning. The dataset contains 150 samples of iris flowers, each with four features: sepal length, sepal width, petal length, and petal width. The goal is to classify the samples into three species of iris flowers: setosa, versicolor, and virginica.
+
 ## Setup Instructions
 
 ### Prerequisites
@@ -102,3 +116,9 @@ Once the container is running, the FastAPI server will be available at `http://l
 
 - The model is saved in the `app/models` directory.
 - The training script uses the Iris dataset from `sklearn.datasets`.
+
+### Future Decisions
+
+- **Automatização do Treinamento:** Implementar um pipeline CI/CD para automatizar o treinamento e a implantação do modelo.
+- **Monitoramento:** Adicionar ferramentas de monitoramento para acompanhar a performance do modelo em produção.
+- **Escalabilidade:** Implementar balanceamento de carga e escalabilidade horizontal para suportar um maior número de requisições.
