@@ -3,6 +3,11 @@ from fastapi import FastAPI, HTTPException  # Framework para construir APIs e ex
 from pydantic import BaseModel  # Biblioteca para validação de dados
 import joblib  # Biblioteca para carregar o modelo treinado
 import os  # Biblioteca para manipulação de caminhos de arquivos
+import logging  # Biblioteca para logging
+
+# Configura o logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Cria a instância do FastAPI
 app = FastAPI()
@@ -26,17 +31,19 @@ class IrisFeatures(BaseModel):
         }
 
 # Carrega o modelo treinado
-model_path = os.path.join(os.path.dirname(__file__), "models", "iris_model.joblib")  
+model_path = "/app/models/iris_model.joblib"  # Update the model path
 try:
     model = joblib.load(model_path)  
 except Exception as e:
     model = None
-    print(f"Erro ao carregar o modelo: {e}")
+    logger.error(f"Erro ao carregar o modelo: {e}")
 
 # Endpoint para previsões
 @app.post("/predict")
 async def predict(features: IrisFeatures):
+    logger.info("Recebendo dados para previsão")
     if model is None:
+        logger.error("Modelo não carregado")
         raise HTTPException(status_code=500, detail="Modelo não carregado")
     try:
         # Converte os dados de entrada para o formato esperado pelo modelo
@@ -47,27 +54,39 @@ async def predict(features: IrisFeatures):
             features.petal_width
         ]]
         # Faz a previsão
-        prediction = int(model.predict(data)[0])  
-        return {"prediction": prediction}  
+        prediction = int(model.predict(data)[0])
+        logger.info(f"Previsão realizada com sucesso: {prediction}")
+        return {"prediction": prediction}
     except Exception as e:
+        logger.error(f"Erro ao fazer a previsão: {e}")
         raise HTTPException(status_code=400, detail=f"Erro ao fazer a previsão: {e}")
 
 # Endpoint para informações sobre o modelo
 @app.get("/model-info")
 async def model_info():
+    logger.info("Recebendo solicitação de informações do modelo")
     if model is None:
+        logger.error("Modelo não carregado")
         raise HTTPException(status_code=500, detail="Modelo não carregado")
-    return {
-        "model_type": str(type(model)),  
-        "model_params": model.get_params()  
-    }
+    try:
+        model_info = {
+            "model_type": str(type(model)),
+            "model_params": model.get_params()
+        }
+        logger.info(f"Informações do modelo retornadas com sucesso: {model_info}")
+        return model_info
+    except Exception as e:
+        logger.error(f"Erro ao obter informações do modelo: {e}")
+        raise HTTPException(status_code=400, detail=f"Erro ao obter informações do modelo: {e}")
 
 # Endpoint de saúde (opcional, mas útil para monitoramento)
 @app.get("/health")
 async def health_check():
+    logger.info("Recebendo solicitação de verificação de saúde")
     return {"status": "healthy"}
 
 # Endpoint para obter a versão da API
 @app.get("/version")
 async def get_version():
+    logger.info("Recebendo solicitação de versão da API")
     return {"version": "1.0.1"}  # Atualize a versão conforme necessário
