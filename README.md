@@ -112,6 +112,14 @@ Once the container is running, the FastAPI server will be available at `http://l
         }
         ```
 
+- `GET /version`: Get the current version of the API.
+    - Response:
+        ```json
+        {
+            "version": "1.0.1"
+        }
+        ```
+
 ### Additional Information
 
 - The model is saved in the `app/models` directory.
