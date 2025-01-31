@@ -21,3 +21,5 @@ terraform.tfstate.backup
 
 # Ignorar backups temporários do editor
 *~
+
+
