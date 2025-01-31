@@ -23,7 +23,7 @@ def train_model(dataset, model_class, params, save_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()  
     parser.add_argument("--model_class", type=str, default="RandomForestClassifier", help="Classe do modelo (ex: RandomForestClassifier)")  
-    parser.add_argument("--save_path", type=str, default="app/models/iris_model.joblib", help="Caminho para salvar o modelo") 
+    parser.add_argument("--save_path", type=str, default="models/iris_model.joblib", help="Caminho para salvar o modelo") 
     parser.add_argument("--params", type=str, default='{"n_estimators": 100, "random_state": 42}', help="Parâmetros do modelo em JSON")  
     args = parser.parse_args()  
     
