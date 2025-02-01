@@ -31,9 +31,14 @@ class IrisFeatures(BaseModel):
         }
 
 # Carrega o modelo treinado
-model_path = "/app/models/iris_model.joblib"  # Update the model path
+model_path = "/app/models/iris_model.joblib"  # Ensure the model path is correct
+logger.info(f"Tentando carregar o modelo a partir de {model_path}")
 try:
-    model = joblib.load(model_path)  
+    model = joblib.load(model_path)
+    logger.info("Modelo carregado com sucesso")
+except FileNotFoundError as e:
+    model = None
+    logger.error(f"Erro ao carregar o modelo: Arquivo não encontrado {e}")
 except Exception as e:
     model = None
     logger.error(f"Erro ao carregar o modelo: {e}")
